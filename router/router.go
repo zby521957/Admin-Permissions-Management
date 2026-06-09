@@ -31,6 +31,14 @@ func SetupRouter() *gin.Engine {
 		protected.PUT("/users/:id", controller.UpdateUser)        // 更新
 		protected.DELETE("/users/:id", controller.DeleteUser)     // 删除
 		protected.POST("/users/:id/roles", controller.AssignRole) // 分配角色
+		
+		// 角色管理
+		protected.GET("/roles", controller.GetRoles)
+		protected.GET("/roles/:id", controller.GetRole)
+		protected.POST("/roles", controller.CreateRole)
+		protected.PUT("/roles/:id", controller.UpdateRole)
+		protected.DELETE("/roles/:id", controller.DeleteRole)
+		protected.POST("/roles/:id/permissions", controller.AssignPermissions)
 		// 后续角色管理路由放这里
 	}
 
