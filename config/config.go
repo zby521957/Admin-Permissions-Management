@@ -39,7 +39,7 @@ func Load() error {
 	if err := viper.ReadInConfig(); err != nil {
 		return err
 	}
-	log.Println("配置文件读取失败")
+	//log.Println("配置文件读取失败")
 
 	//创建一个新的 Config 结构体实例，并取它的指针，赋值给全局变量 AppConfig
 	AppConfig = &Config{}
