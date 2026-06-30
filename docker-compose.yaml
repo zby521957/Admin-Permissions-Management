@@ -6,8 +6,8 @@
       - "8080:8080"
     environment:
       - ENV=docker
-      - DB_PASSWORD=your_password_here
-      - JWT_SECRET=your_jwt_secret_here
+      - DB_PASSWORD=20040527zby
+      - JWT_SECRET=aB3xK9mWq7tR2zL8vN5pY1dF6hJ0cV4
     depends_on:
       mysql:
         condition: service_healthy
@@ -19,7 +19,7 @@
     image: mysql:8.0
     container_name: rbac-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "your_password_here"
+      MYSQL_ROOT_PASSWORD: "20040527zby"
       MYSQL_DATABASE: rbac_admin
     ports:
       - "3307:3306"
