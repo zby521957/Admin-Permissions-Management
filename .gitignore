@@ -1,0 +1,17 @@
+﻿# 编译产物
+*.exe
+*.test
+*.out
+
+# 本地开发配置（不提交到 Git）
+config.local.yaml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 系统
+.DS_Store
+Thumbs.db

@@ -1,0 +1,15 @@
+﻿server:
+  port: ":8080"
+database:
+  host: "mysql"
+  port: 3306
+  user: "root"
+  password: "your_password_here"
+  dbname: "rbac_admin"
+jwt:
+  secret: "your_jwt_secret_here"
+redis:
+  addr: "redis:6379"
+  password: ""
+  db: 0
+  pool_size: 10

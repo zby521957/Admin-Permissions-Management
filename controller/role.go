@@ -9,21 +9,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateRoleRequest 创建角色请求参数
 type CreateRoleRequest struct {
-	Name        string `json:"name" binding:"required"`
-	Description string `json:"description"`
+	Name        string `json:"name" binding:"required"` // 角色名称，必填
+	Description string `json:"description"`             // 角色描述
 }
 
+// UpdateRoleRequest 更新角色请求参数
 type UpdateRoleRequest struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name        string `json:"name"`        // 新角色名称
+	Description string `json:"description"` // 新角色描述
 }
 
+// AssignPermissionsRequest 为角色分配权限请求参数
 type AssignPermissionsRequest struct {
-	PermissionIDs []uint `json:"permission_ids" binding:"required"`
+	PermissionIDs []uint `json:"permission_ids" binding:"required"` // 权限 ID 列表
 }
 
 // CreateRole 创建角色
+// POST /api/v1/roles
 func CreateRole(c *gin.Context) {
 	var req CreateRoleRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -37,7 +41,8 @@ func CreateRole(c *gin.Context) {
 	utils.Success(c, nil)
 }
 
-// GetRoles 获取角色列表
+// GetRoles 获取角色列表（含权限信息）
+// GET /api/v1/roles
 func GetRoles(c *gin.Context) {
 	roles, err := service.GetAllRoles()
 	if err != nil {
@@ -47,7 +52,8 @@ func GetRoles(c *gin.Context) {
 	utils.Success(c, roles)
 }
 
-// GetRole 获取单个角色详情
+// GetRole 获取单个角色详情（含权限信息）
+// GET /api/v1/roles/:id
 func GetRole(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -62,7 +68,8 @@ func GetRole(c *gin.Context) {
 	utils.Success(c, role)
 }
 
-// UpdateRole 更新角色
+// UpdateRole 更新角色信息（名称、描述）
+// PUT /api/v1/roles/:id
 func UpdateRole(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -81,7 +88,8 @@ func UpdateRole(c *gin.Context) {
 	utils.Success(c, nil)
 }
 
-// DeleteRole 删除角色
+// DeleteRole 删除角色（先清除关联权限，再软删除）
+// DELETE /api/v1/roles/:id
 func DeleteRole(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -95,7 +103,8 @@ func DeleteRole(c *gin.Context) {
 	utils.Success(c, nil)
 }
 
-// AssignPermissions 为角色分配权限
+// AssignPermissions 为角色分配权限（替换已有权限）
+// POST /api/v1/roles/:id/permissions
 func AssignPermissions(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {

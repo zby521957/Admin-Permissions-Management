@@ -9,17 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 定义请求结构体
+// UpdateUserRequest 更新用户请求参数
+// 字段均为可选，仅更新提供的非空字段
 type UpdateUserRequest struct {
-	Username string `json:"username"`
-	Email    string `json:"email" binding:"omitempty,email"`
+	Username string `json:"username"`                    // 新用户名
+	Email    string `json:"email" binding:"omitempty,email"` // 新邮箱
 }
 
+// AssignRoleRequest 为用户分配角色请求参数
 type AssignRoleRequest struct {
-	RoleIDs []uint `json:"role_ids" binding:"required"`
+	RoleIDs []uint `json:"role_ids" binding:"required"` // 角色 ID 列表，会替换用户当前所有角色
 }
 
 // GetUsers 获取用户列表
+// GET /api/v1/users
 func GetUsers(c *gin.Context) {
 	users, err := service.GetAllUsers()
 	if err != nil {
@@ -29,7 +32,8 @@ func GetUsers(c *gin.Context) {
 	utils.Success(c, users)
 }
 
-// GetUser 获取单个用户详情
+// GetUser 获取单个用户详情（含角色信息）
+// GET /api/v1/users/:id
 func GetUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -44,7 +48,8 @@ func GetUser(c *gin.Context) {
 	utils.Success(c, user)
 }
 
-// UpdateUser 更新用户
+// UpdateUser 更新用户信息（用户名、邮箱）
+// PUT /api/v1/users/:id
 func UpdateUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -63,7 +68,8 @@ func UpdateUser(c *gin.Context) {
 	utils.Success(c, nil)
 }
 
-// DeleteUser 删除用户
+// DeleteUser 删除用户（软删除）
+// DELETE /api/v1/users/:id
 func DeleteUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -77,7 +83,8 @@ func DeleteUser(c *gin.Context) {
 	utils.Success(c, nil)
 }
 
-// AssignRole 为用户分配角色
+// AssignRole 为用户分配角色（替换已有角色）
+// POST /api/v1/users/:id/roles
 func AssignRole(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
