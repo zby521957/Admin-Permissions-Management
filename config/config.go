@@ -3,6 +3,7 @@
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/spf13/viper"
 )
@@ -72,5 +73,31 @@ func Load() error {
 		return err
 	}
 	log.Printf("配置加载成功: %s.yaml", configName)
+
+	overrideFromEnv()
 	return nil
 }
+
+func overrideFromEnv() {
+	if v := os.Getenv("DB_PASSWORD"); v != "" {
+		AppConfig.Database.Password = v
+	}
+	if v := os.Getenv("DB_HOST"); v != "" {
+		AppConfig.Database.Host = v
+	}
+	if v := os.Getenv("DB_PORT"); v != "" {
+		if port, err := strconv.Atoi(v); err == nil {
+			AppConfig.Database.Port = port
+		}
+	}
+	if v := os.Getenv("JWT_SECRET"); v != "" {
+		AppConfig.JWT.Secret = v
+	}
+	if v := os.Getenv("REDIS_ADDR"); v != "" {
+		AppConfig.Redis.Addr = v
+	}
+	if v := os.Getenv("REDIS_PASSWORD"); v != "" {
+		AppConfig.Redis.Password = v
+	}
+}
+
